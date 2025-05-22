@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { string } from "zod";
 
 const UpdateSchema = new mongoose.Schema({
-  id: string,
+  //id: string,
   title: string,
   content: string,
   createdAt: Date,
