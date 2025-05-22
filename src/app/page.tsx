@@ -36,7 +36,6 @@ export default function Page() {
     try {
       setIsLoading(true);
       setErrorMessage("");
-
       if (isSignup && !isForgotPassword && formData.password !== formData.confirmPassword) {
         throw new Error("Passwords do not match!!!");
       }
