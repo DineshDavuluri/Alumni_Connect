@@ -302,7 +302,7 @@ export default function Page() {
             <p className="text-white">--------------Autonomous--------------</p>
           </div>
         </div>
-        <Image src="Alumni_Connect\public\lara1.jpg" alt="Campus image" width={600} height={300} className="object-cover rounded-lg shadow-lg w-full h-auto mt-6" />
+        <Image src="public\lara1.jpg" alt="Campus image" width={600} height={300} className="object-cover rounded-lg shadow-lg w-full h-auto mt-6" />
       </div>
     </div>
   );
