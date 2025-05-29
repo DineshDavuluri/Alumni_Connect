@@ -1,5 +1,5 @@
 "use client";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, ChangeEvent } from "react";
 
 interface Update {
@@ -8,11 +8,23 @@ interface Update {
   description: string;
 }
 
-
+// Example static update data
+const staticUpdates: Update[] = [
+  {
+    title: "AI Revolution in 2025",
+    date: "2025-05-10",
+    description: "Massive developments in GenAI across education and industry sectors."
+  },
+  {
+    title: "Quantum Computing Breakthrough",
+    date: "2025-04-22",
+    description: "Researchers achieve stable quantum entanglement for longer durations."
+  }
+];
 
 export default function Updates() {
   const router = useRouter();
-  const [updates, setUpdates] = useState<Update[]>([]);
+  const [updates, setUpdates] = useState<Update[]>(staticUpdates);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [newUpdate, setNewUpdate] = useState<Update>({
     title: "",
@@ -20,15 +32,11 @@ export default function Updates() {
     description: "",
   });
 
-  
   const [username, setUsername] = useState<string>("");
   const [isAlumni, setIsAlumni] = useState<boolean>(false);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedUpdates = localStorage.getItem("updates");
-      if (savedUpdates) {
-        setUpdates(JSON.parse(savedUpdates));
-      }
       const urlParams = new URLSearchParams(window.location.search);
       const user = urlParams.get("username");
       if (user) {
@@ -38,12 +46,6 @@ export default function Updates() {
       }
     }
   }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && isAlumni) {
-      localStorage.setItem("updates", JSON.stringify(updates));
-    }
-  }, [updates, isAlumni]);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -67,54 +69,40 @@ export default function Updates() {
     if (newUpdate.title && newUpdate.date && newUpdate.description) {
       setUpdates((prev) => [...prev, newUpdate]);
       setNewUpdate({ title: "", date: "", description: "" });
+    } else {
+      alert("Please fill in all fields to add an update.");
     }
   };
 
   const deleteUpdate = (index: number) => {
     setUpdates((prev) => prev.filter((_, i) => i !== index));
   };
+
   const handleNavigation = (path: string) => {
     router.push(`/${path}?username=${encodeURIComponent(username)}`);
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white p-8">
       <h1 className="text-4xl font-extrabold text-center mb-6">Latest Tech Updates</h1>
+
       <nav className="w-full mb-8">
         <ul className="flex justify-around text-lg font-semibold">
           <li>
-            <button
-              onClick={() => handleNavigation("dashboard")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Home
-            </button>
+            <button onClick={() => handleNavigation("dashboard")} className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition">Home</button>
           </li>
           <li>
-            <button
-              onClick={() => handleNavigation("about")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Alumni Contributions
-            </button>
+            <button onClick={() => handleNavigation("about")} className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition">Alumni Contributions</button>
           </li>
           <li>
-            <button
-              onClick={() => handleNavigation("alumni-directory")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Alumni Directory
-            </button>
+            <button onClick={() => handleNavigation("alumni-directory")} className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition">Alumni Directory</button>
           </li>
           <li>
-            <button
-              onClick={() => handleNavigation("events")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Events
-            </button>
+            <button onClick={() => handleNavigation("events")} className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition">Events</button>
           </li>
         </ul>
       </nav>
+
       <div className="max-w-4xl mx-auto space-y-6">
         {updates.map((update, index) => (
           <div key={index} className="p-6 bg-gray-800 rounded-2xl shadow-lg">
@@ -157,18 +145,8 @@ export default function Updates() {
                 <p className="text-gray-200">{update.description}</p>
                 {isAlumni && (
                   <div className="mt-4 flex space-x-3">
-                    <button
-                      onClick={() => setEditingIndex(index)}
-                      className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteUpdate(index)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
+                    <button onClick={() => setEditingIndex(index)} className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</button>
+                    <button onClick={() => deleteUpdate(index)} className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Delete</button>
                   </div>
                 )}
               </>
@@ -176,6 +154,7 @@ export default function Updates() {
           </div>
         ))}
       </div>
+
       {isAlumni && (
         <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-800 rounded-2xl shadow-lg">
           <h2 className="text-2xl font-bold text-blue-400 mb-4">Add New Update</h2>
@@ -202,14 +181,12 @@ export default function Updates() {
             className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
             placeholder="Description"
           />
-          <button
-            onClick={addUpdate}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-          >
+          <button onClick={addUpdate} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
             Add Update
           </button>
         </div>
       )}
+
       <div className="mt-8 text-center text-lg text-gray-300">
         Logged in as: <span className="font-semibold text-white">{username}</span>
       </div>
