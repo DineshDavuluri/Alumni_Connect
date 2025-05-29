@@ -9,9 +9,25 @@ interface News {
   image?: string;
 }
 
+// Static initial news data (replace/add more items as needed)
+const initialNews: News[] = [
+  {
+    title: "New Alumni Event Announced",
+    date: "2025-06-01",
+    description: "Join us for the annual alumni meet-up in July!",
+    image: "https://via.placeholder.com/400x250?text=Alumni+Event"
+  },
+  {
+    title: "Campus Renovation Updates",
+    date: "2025-05-15",
+    description: "The campus library will be renovated starting next month.",
+    image: "https://via.placeholder.com/400x250?text=Campus+Renovation"
+  }
+];
+
 export default function News() {
   const router = useRouter();
-  const [news, setNews] = useState<News[]>([]);
+  const [news, setNews] = useState<News[]>(initialNews);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [newNews, setNewNews] = useState<News>({
     title: "",
@@ -24,10 +40,6 @@ export default function News() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedNews = localStorage.getItem("news");
-      if (savedNews) {
-        setNews(JSON.parse(savedNews));
-      }
       const urlParams = new URLSearchParams(window.location.search);
       const user = urlParams.get("username");
       if (user) {
@@ -37,12 +49,6 @@ export default function News() {
       }
     }
   }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && isAlumni) {
-      localStorage.setItem("news", JSON.stringify(news));
-    }
-  }, [news, isAlumni]);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
@@ -99,8 +105,8 @@ export default function News() {
   };
 
   const handleNavigation = (path: string) => {
-    if(path==='dashboard'&&isAlumni){
-      path='Almumnidashboard';
+    if (path === "dashboard" && isAlumni) {
+      path = "Almumnidashboard";
     }
     router.push(`/${path}?username=${encodeURIComponent(username)}`);
   };
@@ -185,7 +191,7 @@ export default function News() {
                     onChange={(e) => handleImageChange(e, index)}
                     className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
                   />
-                  </label>
+                </label>
                 <button
                   onClick={saveNews}
                   className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -255,14 +261,14 @@ export default function News() {
             placeholder="News Description"
           />
           <label className="block mb-2 text-sm font-medium text-yellow-300">
-                  Upload Image
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleImageChange(e, null)}
-                    className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
-                  />
-                  </label>
+            Upload Image
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleImageChange(e, null)}
+              className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
+            />
+          </label>
           <button
             onClick={addNews}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
