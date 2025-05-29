@@ -16,7 +16,7 @@ const defaultEvents: Event[] = [
     date: "2025-07-15",
     location: "Auditorium A, Tech Campus",
     description: "Hands-on sessions on GCP, Firebase, and AI tools with Google Developer Experts.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+    image: "https://www.google.com/imgres?q=Google%20Cloud%20DevFest&imgurl=https%3A%2F%2Fres.cloudinary.com%2Fstartup-grind%2Fimage%2Fupload%2Fc_fill%2Cdpr_2.0%2Cf_auto%2Cg_center%2Ch_1080%2Cq_100%2Cw_1080%2Fv1%2Fgcs%2Fplatform-data-goog%2Fevents%2FPAatDF23-Bevy-EventThumbnail-GoogleCloud.jpg&imgrefurl=https%3A%2F%2Fgdg.community.dev%2Fevents%2Fdetails%2Fgoogle-gdg-cloud-bangkok-presents-devfest-cloud-bangkok-2023%2F&docid=rDH6iCIPhFLx5M&tbnid=MG1f1f2RFZWGvM&vet=12ahUKEwiN4eC3zMiNAxXXS2cHHUyOJZMQM3oECBgQAA..i&w=2160&h=2160&hcb=2&ved=2ahUKEwiN4eC3zMiNAxXXS2cHHUyOJZMQM3oECBgQAA",
   },
   {
     title: "Microsoft Azure AI Bootcamp",
