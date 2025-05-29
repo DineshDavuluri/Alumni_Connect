@@ -10,11 +10,77 @@ interface Event {
   image?: string;
 }
 
+const defaultEvents: Event[] = [
+  {
+    title: "Google Cloud DevFest",
+    date: "2025-07-15",
+    location: "Auditorium A, Tech Campus",
+    description: "Hands-on sessions on GCP, Firebase, and AI tools with Google Developer Experts.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+  },
+  {
+    title: "Microsoft Azure AI Bootcamp",
+    date: "2025-08-10",
+    location: "CS Lab 3, Innovation Building",
+    description: "Interactive workshop on building intelligent apps using Microsoft Azure services.",
+    image: "https://logos-world.net/wp-content/uploads/2021/03/Microsoft-Azure-Logo.png",
+  },
+  {
+    title: "IBM Quantum Computing Seminar",
+    date: "2025-06-20",
+    location: "Seminar Hall 1",
+    description: "Learn the basics of quantum computing and Qiskit with IBM researchers.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+  },
+  {
+    title: "Amazon AWS Hackday",
+    date: "2025-09-05",
+    location: "Main Hall",
+    description: "24-hour coding challenge focused on AWS Lambda, DynamoDB, and microservices.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+  },
+  {
+    title: "Meta AR/VR Experience Expo",
+    date: "2025-10-12",
+    location: "Innovation Zone",
+    description: "Explore the future of metaverse tech with Meta's AR/VR devices and demos.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg",
+  },
+  {
+    title: "LinkedIn Career Day",
+    date: "2025-11-02",
+    location: "Career Services Hall",
+    description: "Sessions on professional branding, networking tips, and resume building.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
+  },
+  {
+    title: "OpenAI AI Ethics Discussion",
+    date: "2025-07-30",
+    location: "Lecture Theatre 4",
+    description: "Panel discussion with experts on ethical implications of AI deployment.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/4a/OpenAI_Logo.svg",
+  },
+  {
+    title: "Adobe Creative Jam",
+    date: "2025-08-25",
+    location: "Design Studio, Block D",
+    description: "Creative challenge using Adobe tools for UI/UX design and visual storytelling.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/55/Adobe_Systems_logo_and_wordmark.svg",
+  },
+  {
+    title: "GitHub Open Source Fest",
+    date: "2025-09-18",
+    location: "Hackerspace Lab",
+    description: "Collaborate on open-source projects, learn Git workflows, and contribute live.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
+  },
+];
+
 export default function Events() {
   const router = useRouter();
   const [username, setUsername] = useState<string>("");
   const [isAlumni, setIsAlumni] = useState<boolean>(false);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>(defaultEvents);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [newEvent, setNewEvent] = useState<Event>({
     title: "",
@@ -29,6 +95,8 @@ export default function Events() {
       const savedEvents = localStorage.getItem("events");
       if (savedEvents) {
         setEvents(JSON.parse(savedEvents));
+      } else {
+        localStorage.setItem("events", JSON.stringify(defaultEvents));
       }
       const urlParams = new URLSearchParams(window.location.search);
       const user = urlParams.get("username");
@@ -108,8 +176,8 @@ export default function Events() {
   };
 
   const handleNavigation = (path: string) => {
-    if(path==='dashboard'&&isAlumni){
-      path='Almumnidashboard';
+    if (path === "dashboard" && isAlumni) {
+      path = "Almumnidashboard";
     }
     router.push(`/${path}?username=${encodeURIComponent(username)}`);
   };
@@ -197,14 +265,14 @@ export default function Events() {
                   placeholder="Event Description"
                 />
                 <label className="block mb-2 text-sm font-medium text-yellow-300">
-            Upload Image
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, index)}
-              className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
-            />
-            </label>
+                  Upload Image
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e, index)}
+                    className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
+                  />
+                </label>
                 <button
                   onClick={saveEvent}
                   className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -214,21 +282,23 @@ export default function Events() {
               </>
             ) : (
               <>
-              <div className="flex flex-row md:flex-row gap-6">
-                {event.image && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={event.image}
-                    alt="Event"
-                    className="w-[400px] h-[250px] object-cover rounded-md mb-4 border-2 border-gray-600"
-                  />
-                )}
-                <h2 className="text-2xl font-bold text-blue-400">{event.title}</h2>
-                <p className="text-gray-300 text-sm mb-2">
-                  {event.date} | {event.location}
-                </p>
-                <p className="text-gray-400">{event.description}</p>
-              </div>  
+                <div className="flex flex-row md:flex-row gap-6">
+                  {event.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={event.image}
+                      alt="Event"
+                      className="w-[400px] h-[250px] object-cover rounded-md mb-4 border-2 border-gray-600"
+                    />
+                  )}
+                  <div>
+                    <h2 className="text-2xl font-bold text-blue-400">{event.title}</h2>
+                    <p className="text-gray-300 text-sm mb-2">
+                      {event.date} | {event.location}
+                    </p>
+                    <p className="text-gray-400">{event.description}</p>
+                  </div>
+                </div>
                 {isAlumni && (
                   <div className="mt-4 flex space-x-3">
                     <button
@@ -293,7 +363,7 @@ export default function Events() {
               onChange={(e) => handleImageChange(e, null)}
               className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
             />
-            </label>
+          </label>
           <button
             onClick={addEvent}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
