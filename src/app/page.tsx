@@ -104,13 +104,13 @@ export default function Page() {
           setShowResetPassword(false);
           setFormData({ username: "", email: "", password: "", confirmPassword: "", otp: "" });
         }
-      } else if (isSignup && !showOtpInput) {
-        setShowOtpInput(true);
-        alert("OTP has been sent to your email. Please verify.");
       } else if (isSignup && showOtpInput) {
         alert("Successfully verified! Please login.");
         setIsSignup(false);
         setShowOtpInput(false);
+      } else if (isSignup && !showOtpInput) {
+        setShowOtpInput(true);
+        alert("OTP has been sent to your email. Please verify.");
       } else {
         const firstTwoChars = formData.username.slice(0, 2);
         const firstTwoNum = parseInt(firstTwoChars, 10);
@@ -139,8 +139,8 @@ export default function Page() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 p-4">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl border border-white/20 text-white">
+    <div className="flex flex-col md:flex-row min-h-screen items-center justify-center bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 p-4">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-6 sm:p-8 rounded-xl shadow-2xl border border-white/20 text-white">
         <h1 className="text-4xl font-extrabold text-center mb-6 italic tracking-wider glow-text">LARA CONNECT</h1>
         <h2 className="text-lg text-center font-medium mb-6">
           {isSignup ? "Create an account" : isForgotPassword ? "Reset Password" : "Welcome Back"}
@@ -200,7 +200,7 @@ export default function Page() {
         </p>
       </div>
 
-      <div className="hidden md:flex flex-col items-center justify-center ml-10 text-center">
+      <div className="w-full max-w-2xl mt-10 md:mt-0 hidden md:flex flex-col items-center justify-center ml-10 text-center">
         <div className="flex items-center space-x-4">
           <Image src="/laralogo.jpg" alt="College Logo" width={60} height={60} />
           <div>
@@ -214,12 +214,3 @@ export default function Page() {
     </div>
   );
 }
-
-// Tailwind utility classes
-// Add in your global CSS or Tailwind config:
-// .input-field {
-//   @apply w-full p-3 mb-3 bg-white/10 border border-gray-400 rounded-lg text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none;
-// }
-// .btn-submit {
-//   @apply w-full p-3 rounded-lg bg-blue-500 text-white font-bold shadow-md transition-all duration-300;
-// }
