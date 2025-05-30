@@ -9,6 +9,27 @@ interface Contribution {
   image?: string;
 }
 
+const staticContributions: Contribution[] = [
+  {
+    alumniName: "Ravi Kumar",
+    contribution: "Donated ₹2,00,000 for lab equipment",
+    date: "2023-04-15",
+    image: ""
+  },
+  {
+    alumniName: "Anjali Sharma",
+    contribution: "Organized mentorship sessions for final year students",
+    date: "2023-06-10",
+    image: ""
+  },
+  {
+    alumniName: "Sunil Mehta",
+    contribution: "Sponsored college tech fest 2024",
+    date: "2024-01-20",
+    image: ""
+  }
+];
+
 export default function About() {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -25,7 +46,8 @@ export default function About() {
 
   useEffect(() => {
     const saved = localStorage.getItem("contributions");
-    if (saved) setContributions(JSON.parse(saved));
+    if (saved) setContributions([...staticContributions, ...JSON.parse(saved)]);
+    else setContributions(staticContributions);
 
     const params = new URLSearchParams(window.location.search);
     const user = params.get("username");
@@ -40,13 +62,14 @@ export default function About() {
 
   useEffect(() => {
     if (isAlumni) {
-      localStorage.setItem("contributions", JSON.stringify(contributions));
+      const customContributions = contributions.filter(c => !staticContributions.includes(c));
+      localStorage.setItem("contributions", JSON.stringify(customContributions));
     }
   }, [contributions, isAlumni]);
 
   const handleNavigation = (path: string) => {
-    if(path==='dashboard' && isAlumni){
-      path='Almumnidashboard';
+    if (path === 'dashboard' && isAlumni) {
+      path = 'Almumnidashboard';
     }
     router.push(`/${path}?username=${encodeURIComponent(username)}`);
   };
@@ -108,15 +131,15 @@ export default function About() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-900 via-purple-800 to-pink-800 p-8 text-white">
-      <h1 className="text-4xl font-bold text-center mb-10 text-yellow-400">Alumni Contributions</h1>
+    <div className="min-h-screen bg-gray-100 text-gray-900 p-4 sm:p-6 md:p-10">
+      <h1 className="text-3xl md:text-4xl font-bold text-center mb-8">Alumni Contributions</h1>
 
-      <nav className="flex justify-center gap-4 mb-10">
+      <nav className="flex justify-center gap-2 flex-wrap mb-8">
         {["dashboard", "news", "alumni-directory", "events"].map((path, idx) => (
           <button
             key={idx}
             onClick={() => handleNavigation(path)}
-            className="px-4 py-2 text-sm font-semibold text-white border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
+            className="px-3 py-2 text-sm font-medium text-gray-800 border border-gray-400 rounded hover:bg-gray-200"
           >
             {path === "dashboard"
               ? "Home"
@@ -129,18 +152,17 @@ export default function About() {
         ))}
       </nav>
 
-      <div className="max-w-5xl mx-auto space-y-6">
+      <div className="max-w-5xl mx-auto space-y-8">
         {contributions.map((contrib, index) => (
           <div
             key={index}
-            className="flex bg-black/30 p-6 rounded-2xl shadow-xl backdrop-blur-sm hover:scale-[1.01] transition"
+            className={`flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'} bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-300`}
           >
             {contrib.image && (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={contrib.image}
                 alt="Alumni"
-                className="w-[300px] h-[200px] object-cover rounded-xl border-2 border-gray-600 mr-6"
+                className="w-full md:w-[250px] h-[180px] object-cover rounded-md mb-4 md:mb-0 md:mr-6"
               />
             )}
             <div className="flex-1">
@@ -151,7 +173,7 @@ export default function About() {
                     name="alumniName"
                     value={contrib.alumniName}
                     onChange={(e) => handleInputChange(e, index)}
-                    className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+                    className="w-full p-2 border rounded mb-2"
                     placeholder="Alumni Name"
                   />
                   <input
@@ -159,49 +181,45 @@ export default function About() {
                     name="date"
                     value={contrib.date}
                     onChange={(e) => handleInputChange(e, index)}
-                    className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+                    className="w-full p-2 border rounded mb-2"
                     placeholder="Date"
                   />
                   <textarea
                     name="contribution"
                     value={contrib.contribution}
                     onChange={(e) => handleInputChange(e, index)}
-                    className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+                    className="w-full p-2 border rounded mb-2"
                     placeholder="Contribution"
                   />
-                  <label className="block mb-2 text-sm font-medium text-yellow-300">
-                  Upload Image
                   <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => handleImageChange(e, index)}
-                    className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
+                    className="w-full p-2 border rounded mb-2"
                   />
-                  </label>
-
                   <button
                     onClick={saveContribution}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                   >
                     Save
                   </button>
                 </>
               ) : (
                 <>
-                  <h2 className="text-2xl font-bold text-yellow-300">{contrib.alumniName}</h2>
-                  <p className="text-gray-300 text-sm mb-2">{contrib.date}</p>
-                  <p className="text-white">{contrib.contribution}</p>
+                  <h2 className="text-xl font-semibold">{contrib.alumniName}</h2>
+                  <p className="text-sm text-gray-600 mb-1">{contrib.date}</p>
+                  <p>{contrib.contribution}</p>
                   {isAlumni && (
-                    <div className="mt-4 flex space-x-3">
+                    <div className="mt-3 flex gap-2">
                       <button
                         onClick={() => setEditingIndex(index)}
-                        className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                        className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => deleteContribution(index)}
-                        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                       >
                         Delete
                       </button>
@@ -215,14 +233,14 @@ export default function About() {
       </div>
 
       {isAlumni && (
-        <div className="max-w-4xl mx-auto mt-8 p-6 bg-black/30 rounded-2xl shadow-xl backdrop-blur-sm">
-          <h2 className="text-2xl font-bold text-yellow-300 mb-4">Add New Contribution</h2>
+        <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow border border-gray-300">
+          <h2 className="text-xl font-semibold mb-4">Add New Contribution</h2>
           <input
             type="text"
             name="alumniName"
             value={newContribution.alumniName}
             onChange={(e) => handleInputChange(e, null)}
-            className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+            className="w-full p-2 border rounded mb-2"
             placeholder="Alumni Name"
           />
           <input
@@ -230,40 +248,37 @@ export default function About() {
             name="date"
             value={newContribution.date}
             onChange={(e) => handleInputChange(e, null)}
-            className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+            className="w-full p-2 border rounded mb-2"
             placeholder="Date"
           />
           <textarea
             name="contribution"
             value={newContribution.contribution}
             onChange={(e) => handleInputChange(e, null)}
-            className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+            className="w-full p-2 border rounded mb-2"
             placeholder="Contribution"
           />
-          <label className="block mb-2 text-sm font-medium text-yellow-300">
-            Upload Image
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, null)}
-              className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
-            />
-            </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageChange(e, null)}
+            className="w-full p-2 border rounded mb-4"
+          />
           <button
             onClick={addContribution}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
             Add Contribution
           </button>
         </div>
       )}
 
-      <div className="mt-8 text-center text-lg text-gray-300">
-        Logged in as: <span className="font-semibold text-white">{username}</span>
+      <div className="mt-8 text-center text-sm text-gray-600">
+        Logged in as: <span className="font-semibold text-gray-800">{username}</span>
       </div>
 
       {successMessage && (
-        <div className="mt-4 text-center text-green-400 font-medium">{successMessage}</div>
+        <div className="mt-4 text-center text-green-600 font-medium">{successMessage}</div>
       )}
     </div>
   );
