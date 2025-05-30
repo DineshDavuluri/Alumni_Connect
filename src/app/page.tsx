@@ -28,7 +28,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
