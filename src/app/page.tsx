@@ -85,11 +85,11 @@ export default function Page() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) throw new Error(data.error || "Server error");
-      
+
       if (isForgotPassword) {
         if (!showOtpInput && !showResetPassword) {
           setShowOtpInput(true);
@@ -104,13 +104,13 @@ export default function Page() {
           setShowResetPassword(false);
           setFormData({ username: "", email: "", password: "", confirmPassword: "", otp: "" });
         }
+      } else if (isSignup && !showOtpInput) {
+        setShowOtpInput(true);
+        alert("OTP has been sent to your email. Please verify.");
       } else if (isSignup && showOtpInput) {
         alert("Successfully verified! Please login.");
         setIsSignup(false);
         setShowOtpInput(false);
-      } else if (isSignup && !showOtpInput) {
-        setShowOtpInput(true);
-        alert("OTP has been sent to your email. Please verify.");
       } else {
         const firstTwoChars = formData.username.slice(0, 2);
         const firstTwoNum = parseInt(firstTwoChars, 10);
@@ -139,34 +139,42 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-black px-6 py-10">
-      <div className="md:w-2/5 w-full max-w-md bg-black/50 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/10 text-white">
-        <h1 className="text-4xl font-extrabold text-white font-serif text-center mb-6 italic tracking-wider glow-text">LARA CONNECT</h1>
-        <h2 className="text-2xl text-center font-medium mb-5">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 p-4">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl border border-white/20 text-white">
+        <h1 className="text-4xl font-extrabold text-center mb-6 italic tracking-wider glow-text">LARA CONNECT</h1>
+        <h2 className="text-lg text-center font-medium mb-6">
           {isSignup ? "Create an account" : isForgotPassword ? "Reset Password" : "Welcome Back"}
         </h2>
 
-        {errorMessage && <p className="text-red-400 text-center mb-4 font-semibold">{errorMessage}</p>}
+        {errorMessage && <p className="text-red-400 text-center mb-4 text-sm font-semibold">{errorMessage}</p>}
 
-        {/* Input fields here remain unchanged */}
+        {!isForgotPassword && !showOtpInput && (
+          <>
+            <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} className="input-field" />
+            {isSignup && <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="input-field" />}
+            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="input-field" />
+            {isSignup && <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} className="input-field" />}
+          </>
+        )}
 
-        <button 
-          onClick={handleSubmit} 
-          disabled={isLoading}
-          className={`w-full p-3 rounded-xl font-bold shadow-md transition-all duration-300 text-lg tracking-wide mt-2 ${
-            isLoading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
-          }`}
-        >
-          {isLoading ? "Loading..." : isForgotPassword 
-            ? (showResetPassword ? "Reset Password" : showOtpInput ? "Verify OTP" : "Send OTP") 
-            : isSignup 
-              ? (showOtpInput ? "Verify OTP" : "Sign Up") 
-              : "Login"}
+        {(isSignup || isForgotPassword) && showOtpInput && (
+          <input type="text" name="otp" placeholder="Enter 6-digit OTP" value={formData.otp} onChange={handleChange} className="input-field" />
+        )}
+
+        {isForgotPassword && showResetPassword && (
+          <>
+            <input type="password" name="password" placeholder="New Password" value={formData.password} onChange={handleChange} className="input-field" />
+            <input type="password" name="confirmPassword" placeholder="Confirm New Password" value={formData.confirmPassword} onChange={handleChange} className="input-field" />
+          </>
+        )}
+
+        <button onClick={handleSubmit} disabled={isLoading} className={`btn-submit ${isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"}`}>
+          {isLoading ? "Loading..." : isForgotPassword ? (showResetPassword ? "Reset Password" : showOtpInput ? "Verify OTP" : "Send OTP") : isSignup ? (showOtpInput ? "Verify OTP" : "Sign Up") : "Login"}
         </button>
 
-        <p className="mt-6 text-center text-sm">
+        <p className="mt-4 text-center text-sm">
           {isSignup && !isForgotPassword ? "Already have an account? " : isForgotPassword ? "Back to " : "New user? "}
-          <button 
+          <button
             onClick={() => {
               if (isForgotPassword) {
                 setIsForgotPassword(false);
@@ -178,36 +186,40 @@ export default function Page() {
               setShowResetPassword(false);
               setFormData({ username: "", email: "", password: "", confirmPassword: "", otp: "" });
               setErrorMessage("");
-            }} 
-            className="text-blue-300 hover:underline font-semibold"
+            }}
+            className="text-yellow-300 hover:underline"
           >
             {isSignup && !isForgotPassword ? "Login" : isForgotPassword ? "Login" : "Sign Up"}
           </button>
           {!isSignup && !isForgotPassword && (
             <>
               {" | "}
-              <button 
-                onClick={handleForgotPassword}
-                className="text-blue-300 hover:underline font-semibold"
-              >
-                Forgot Password?
-              </button>
+              <button onClick={handleForgotPassword} className="text-yellow-300 hover:underline">Forgot Password?</button>
             </>
           )}
         </p>
       </div>
 
-      <div className="hidden md:flex flex-col items-center justify-center md:w-1/2 text-center px-6">
-        <div className="flex items-center space-x-4 mb-6">
+      <div className="hidden md:flex flex-col items-center justify-center ml-10 text-center">
+        <div className="flex items-center space-x-4">
           <Image src="/laralogo.jpg" alt="College Logo" width={60} height={60} />
           <div>
-            <h2 className="text-4xl font-bold text-white glow-text">VIGNAN&apos;S LARA</h2>
-            <h3 className="text-sm font-semibold text-white tracking-widest">INSTITUTE OF TECHNOLOGY & SCIENCE</h3>
-            <p className="text-white mt-1">--------------Autonomous--------------</p>
+            <h2 className="text-3xl font-bold text-white glow-text">VIGNAN&apos;S LARA</h2>
+            <h2 className="text-sm font-bold text-white font-sans">INSTITUTE OF TECHNOLOGY & SCIENCE</h2>
+            <p className="text-white">--------------Autonomous--------------</p>
           </div>
         </div>
-        <Image src="/lara1.jpg" alt="Campus image" width={600} height={300} className="rounded-2xl shadow-lg object-cover" />
+        <Image src="/lara1.jpg" alt="Campus image" width={600} height={300} className="object-cover rounded-lg shadow-lg w-full h-auto mt-6" />
       </div>
     </div>
   );
 }
+
+// Tailwind utility classes
+// Add in your global CSS or Tailwind config:
+// .input-field {
+//   @apply w-full p-3 mb-3 bg-white/10 border border-gray-400 rounded-lg text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none;
+// }
+// .btn-submit {
+//   @apply w-full p-3 rounded-lg bg-blue-500 text-white font-bold shadow-md transition-all duration-300;
+// }
