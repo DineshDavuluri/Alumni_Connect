@@ -119,37 +119,37 @@ export default function TechnologyTrends() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-green-600 via-blue-600 to-indigo-600 text-white p-8">
-      <h1 className="text-4xl font-extrabold text-center mb-6">Technology Trends</h1>
-      <nav className="w-full mb-8">
-        <ul className="flex justify-around text-lg font-semibold">
-          <li><button onClick={() => handleNavigation("dashboard")} className="px-4 py-2 bg-blue-300 rounded-md hover:bg-indigo-700">Home</button></li>
-          <li><button onClick={() => handleNavigation("research")} className="px-4 py-2 bg-blue-300 rounded-md hover:bg-indigo-700">Research</button></li>
-          <li><button onClick={() => handleNavigation("events")} className="px-4 py-2 bg-blue-300 rounded-md hover:bg-indigo-700">Events</button></li>
+    <div className="min-h-screen bg-gray-100 text-gray-900 p-4 md:p-8">
+      <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">Technology Trends</h1>
+      <nav className="w-full mb-6 md:mb-8">
+        <ul className="flex flex-wrap justify-center gap-4 text-sm md:text-base font-medium">
+          <li><button onClick={() => handleNavigation("dashboard")} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md">Home</button></li>
+          <li><button onClick={() => handleNavigation("research")} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md">Research</button></li>
+          <li><button onClick={() => handleNavigation("events")} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md">Events</button></li>
         </ul>
       </nav>
 
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-5xl mx-auto grid gap-6 md:grid-cols-2">
         {trends.map((item, index) => (
-          <div key={index} className="p-6 bg-gray-800 rounded-2xl shadow-lg transition hover:scale-105 hover:bg-gray-700">
+          <div key={index} className={`p-4 bg-white rounded-lg shadow-md flex flex-col ${index % 2 === 0 ? 'md:items-start' : 'md:items-end'}`}>
             {editingIndex === index ? (
               <>
-                <input name="title" value={item.title} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Trend Title" />
-                <input name="date" value={item.date} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Date" />
-                <textarea name="description" value={item.description} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Description" />
+                <input name="title" value={item.title} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Trend Title" />
+                <input name="date" value={item.date} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Date" />
+                <textarea name="description" value={item.description} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Description" />
                 <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, index)} className="w-full mb-2" />
-                <button onClick={saveTrend} className="px-4 py-2 bg-blue-500 text-white rounded-md">Save</button>
+                <button onClick={saveTrend} className="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
               </>
             ) : (
               <>
-                <h2 className="text-2xl font-bold text-green-400">{item.title}</h2>
-                <p className="text-gray-300 text-sm mb-2">{item.date}</p>
-                <p className="text-gray-200 mb-4">{item.description}</p>
-                {item.image && <img src={item.image} alt="Trend" className="w-full h-[250px] object-cover rounded-md mb-4 border-2 border-gray-600" />}
+                <h2 className="text-xl font-semibold text-blue-700">{item.title}</h2>
+                <p className="text-sm text-gray-500 mb-1">{item.date}</p>
+                <p className="mb-3 text-gray-700">{item.description}</p>
+                {item.image && <img src={item.image} alt="Trend" className="w-full h-48 object-cover rounded mb-4 border border-gray-300" />}
                 {isAlumni && (
                   <div className="flex space-x-3">
-                    <button onClick={() => setEditingIndex(index)} className="px-4 py-2 bg-yellow-500 text-white rounded-md">Edit</button>
-                    <button onClick={() => deleteTrend(index)} className="px-4 py-2 bg-red-500 text-white rounded-md">Delete</button>
+                    <button onClick={() => setEditingIndex(index)} className="px-3 py-1 bg-yellow-500 text-white rounded">Edit</button>
+                    <button onClick={() => deleteTrend(index)} className="px-3 py-1 bg-red-500 text-white rounded">Delete</button>
                   </div>
                 )}
               </>
@@ -159,13 +159,13 @@ export default function TechnologyTrends() {
       </div>
 
       {isAlumni && (
-        <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-800 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-green-400 mb-4">Add New Trend</h2>
-          <input name="title" value={newTrend.title} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Title" />
-          <input name="date" value={newTrend.date} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Date" />
-          <textarea name="description" value={newTrend.description} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Description" />
+        <div className="max-w-3xl mx-auto mt-10 p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-xl font-bold text-blue-700 mb-4">Add New Trend</h2>
+          <input name="title" value={newTrend.title} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Title" />
+          <input name="date" value={newTrend.date} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Date" />
+          <textarea name="description" value={newTrend.description} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Description" />
           <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, null)} className="w-full mb-2" />
-          <button onClick={addTrend} className="px-4 py-2 bg-green-500 text-white rounded-md">Add Trend</button>
+          <button onClick={addTrend} className="px-4 py-2 bg-green-600 text-white rounded">Add Trend</button>
         </div>
       )}
     </div>
