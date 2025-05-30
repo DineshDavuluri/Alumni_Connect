@@ -11,7 +11,6 @@ interface Alumni {
   salary: string;
 }
 
-// Static Alumni Data
 const staticAlumni: Alumni[] = [
   // 2017
   { name: "Adam West", graduationYear: "2017", company: "Oracle", role: "Database Admin", location: "Austin", salary: "93000" },
@@ -163,70 +162,64 @@ export default function AlumniDirectory() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white p-8">
-      <h1 className="text-4xl font-extrabold text-center mb-6">Alumni Directory</h1>
-      <p className="text-center text-lg mb-6">
-        Connect with fellow alumni and explore professional networks.
-      </p>
+    <div className="min-h-screen bg-white text-gray-900 p-6">
+      <header className="text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">Alumni Directory</h1>
+        <p className="text-base md:text-lg text-gray-600">Connect with fellow alumni and explore professional networks.</p>
+      </header>
 
-      <nav className="w-full mb-8">
-        <ul className="flex justify-around text-lg font-semibold">
-          <li><button onClick={() => handleNavigation("dashboard")} className="px-4 py-2 text-sm bg-black border border-blue-500 rounded-lg hover:bg-blue-500">Home</button></li>
-          <li><button onClick={() => handleNavigation("about")} className="px-4 py-2 text-sm bg-black border border-blue-500 rounded-lg hover:bg-blue-500">Alumni Contributions</button></li>
-          <li><button onClick={() => handleNavigation("news")} className="px-4 py-2 text-sm bg-black border border-blue-500 rounded-lg hover:bg-blue-500">Current Trends</button></li>
-          <li><button onClick={() => handleNavigation("events")} className="px-4 py-2 text-sm bg-black border border-blue-500 rounded-lg hover:bg-blue-500">Events</button></li>
+      <nav className="mb-8 text-center">
+        <ul className="flex flex-wrap justify-center gap-4 text-sm md:text-base">
+          <li><button onClick={() => handleNavigation("dashboard")} className="px-4 py-2 border rounded hover:bg-gray-200">Home</button></li>
+          <li><button onClick={() => handleNavigation("about")} className="px-4 py-2 border rounded hover:bg-gray-200">Alumni Contributions</button></li>
+          <li><button onClick={() => handleNavigation("news")} className="px-4 py-2 border rounded hover:bg-gray-200">Current Trends</button></li>
+          <li><button onClick={() => handleNavigation("events")} className="px-4 py-2 border rounded hover:bg-gray-200">Events</button></li>
         </ul>
       </nav>
 
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
         {filteredAlumni.map((alum, index) => (
-          <div key={index} className="p-6 bg-gray-800 rounded-2xl shadow-lg hover:scale-105 hover:bg-gray-700 transition">
+          <div key={index} className={`p-4 border rounded-lg shadow-sm ${index % 2 === 0 ? 'md:ml-8' : 'md:mr-8'}`}>
             {editingIndex === index ? (
-              <>
-                <input type="text" name="name" value={alum.name} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Full Name" />
-                <input type="text" name="graduationYear" value={alum.graduationYear} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Graduation Year" />
-                <input type="text" name="company" value={alum.company} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Company" />
-                <input type="text" name="role" value={alum.role} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Role" />
-                <input type="text" name="location" value={alum.location} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Location" />
-                <input type="text" name="salary" value={alum.salary} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Salary" />
-                <button onClick={saveAlumni} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Save</button>
-              </>
+              <div className="space-y-2">
+                {['name', 'graduationYear', 'company', 'role', 'location', 'salary'].map((field) => (
+                  <input key={field} type="text" name={field} value={alum[field as keyof Alumni]} onChange={(e) => handleInputChange(e, index)} className="w-full p-2 border rounded" placeholder={field} />
+                ))}
+                <button onClick={saveAlumni} className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+              </div>
             ) : (
-              <>
-                <h2 className="text-2xl font-bold text-blue-400">{alum.name}</h2>
-                <p className="text-gray-300 text-sm mb-2">
-                  {alum.graduationYear} Passed Out → {alum.role} at {alum.company}
-                </p>
-                <p className="text-gray-400">Location: {alum.location}</p>
-                <p className="text-gray-400">Salary: ${alum.salary}</p>
+              <div>
+                <h2 className="text-xl font-semibold">{alum.name}</h2>
+                <p className="text-sm text-gray-600">{alum.graduationYear} graduate → {alum.role} at {alum.company}</p>
+                <p className="text-sm text-gray-700">Location: {alum.location}</p>
+                <p className="text-sm text-gray-700">Salary: ${alum.salary}</p>
                 {isAlumni && (
-                  <div className="mt-4 flex space-x-3">
-                    <button onClick={() => setEditingIndex(index)} className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</button>
-                    <button onClick={() => deleteAlumni(index)} className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Delete</button>
+                  <div className="mt-3 flex gap-2">
+                    <button onClick={() => setEditingIndex(index)} className="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</button>
+                    <button onClick={() => deleteAlumni(index)} className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
         ))}
       </div>
 
       {isAlumni && (
-        <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-800 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-blue-400 mb-4">Add New Alumni</h2>
-          <input type="text" name="name" value={newAlumni.name} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Full Name" />
-          <input type="text" name="graduationYear" value={newAlumni.graduationYear} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Graduation Year" />
-          <input type="text" name="company" value={newAlumni.company} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Company" />
-          <input type="text" name="role" value={newAlumni.role} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Role" />
-          <input type="text" name="location" value={newAlumni.location} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Location" />
-          <input type="text" name="salary" value={newAlumni.salary} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 bg-gray-700 text-white rounded-md mb-2" placeholder="Salary" />
-          <button onClick={addAlumni} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Add Alumni</button>
+        <div className="mt-10 p-6 border rounded-lg shadow-md max-w-2xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-4">Add New Alumni</h2>
+          <div className="space-y-3">
+            {['name', 'graduationYear', 'company', 'role', 'location', 'salary'].map((field) => (
+              <input key={field} type="text" name={field} value={newAlumni[field as keyof Alumni]} onChange={(e) => handleInputChange(e, null)} className="w-full p-2 border rounded" placeholder={field.charAt(0).toUpperCase() + field.slice(1)} />
+            ))}
+            <button onClick={addAlumni} className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700">Add Alumni</button>
+          </div>
         </div>
       )}
 
-      <div className="mt-8 text-center text-lg text-gray-300">
-        Logged in as: <span className="font-semibold text-white">{username}</span>
-      </div>
+      <footer className="mt-10 text-center text-sm text-gray-600">
+        Logged in as: <span className="font-medium text-black">{username}</span>
+      </footer>
     </div>
   );
 }
