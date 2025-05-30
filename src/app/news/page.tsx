@@ -11,16 +11,52 @@ interface Trend {
 
 const initialTrends: Trend[] = [
   {
-    title: "AI-Driven Development",
+    title: "Agentic AI",
     date: "2025-05-01",
-    description: "AI tools are transforming software development by automating tasks and improving code quality.",
-    image: "https://via.placeholder.com/400x250.png?text=AI+Development"
+    description: "AI systems capable of autonomous decision-making and task execution.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Artificial_Intelligence_%26_AI_%26_Machine_Learning_-_30212411048.jpg/640px-Artificial_Intelligence_%26_AI_%26_Machine_Learning_-_30212411048.jpg"
   },
   {
-    title: "Quantum Computing Breakthroughs",
+    title: "Post-Quantum Cryptography",
     date: "2025-04-20",
-    description: "Major strides in quantum computing could revolutionize problem-solving in cryptography and materials science.",
-    image: "https://via.placeholder.com/400x250.png?text=Quantum+Computing"
+    description: "New cryptographic algorithms designed to resist quantum computing attacks.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Quantum_Computer.jpg/640px-Quantum_Computer.jpg"
+  },
+  {
+    title: "Spatial Computing",
+    date: "2025-03-15",
+    description: "Integration of physical and digital worlds via AR/VR for immersive experiences.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/VR_Gaming.jpg/640px-VR_Gaming.jpg"
+  },
+  {
+    title: "AI Governance Platforms",
+    date: "2025-05-10",
+    description: "Tools and frameworks for ethical and accountable AI implementation.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Artificial_Intelligence_robot.png/640px-Artificial_Intelligence_robot.png"
+  },
+  {
+    title: "Ambient Invisible Intelligence",
+    date: "2025-02-22",
+    description: "AI integrated invisibly in environments to respond to user context automatically.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Smart_home_devices.jpg/640px-Smart_home_devices.jpg"
+  },
+  {
+    title: "Polyfunctional Robots",
+    date: "2025-01-12",
+    description: "Robots that can perform multiple tasks across various domains effectively.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Humanoid_Robot.jpg/640px-Humanoid_Robot.jpg"
+  },
+  {
+    title: "Disinformation Security",
+    date: "2025-03-05",
+    description: "Technologies developed to combat the spread of false or misleading information.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Misinformation.jpg/640px-Misinformation.jpg"
+  },
+  {
+    title: "Energy-Efficient Computing",
+    date: "2025-04-02",
+    description: "Advancements in hardware and software to reduce computing's energy footprint.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Energy_saving_icon.png/640px-Energy_saving_icon.png"
   }
 ];
 
