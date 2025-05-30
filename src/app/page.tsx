@@ -139,9 +139,9 @@ export default function Page() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
-      <div className="w-96 bg-black/30 backdrop-blur-lg p-8 rounded-xl shadow-xl border border-white/20 text-white">
-        <h1 className="text-3xl font-bold text-white font-serif text-center mb-6 italic glow-text">LARA CONNECT</h1>
+    <div className="flex flex-col md:flex-row min-h-screen items-center justify-center bg-black p-4">
+      <div className="w-full max-w-md bg-white text-black p-6 sm:p-8 rounded-xl shadow-md border border-gray-300">
+        <h1 className="text-3xl font-bold text-center mb-4">LARA CONNECT</h1>
         <h2 className="text-xl text-center font-semibold mb-4">
           {isSignup ? "Create an account" : isForgotPassword ? "Reset Password" : "Welcome Back"}
         </h2>
