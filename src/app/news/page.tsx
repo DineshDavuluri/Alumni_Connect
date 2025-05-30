@@ -15,7 +15,7 @@ const initialNews: News[] = [
     title: "New Alumni Event Announced",
     date: "2025-06-01",
     description: "Join us for the annual alumni meet-up in July!",
-    image: "https://via.placeholder.com/400x250?text=Alumni+Event"
+    image: "https://en.wikipedia.org/wiki/Wikipedia:University_of_Edinburgh/Events_and_Workshops/International_Alumni_editathon#/media/File:University_of_Edinburgh_Spy_Week_Wikipedia_edit-a-thon_07.jpg"
   },
   {
     title: "Campus Renovation Updates",
