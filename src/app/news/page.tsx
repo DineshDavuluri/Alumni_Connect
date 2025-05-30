@@ -15,13 +15,13 @@ const initialNews: News[] = [
     title: "New Alumni Event Announced",
     date: "2025-06-01",
     description: "Join us for the annual alumni meet-up in July!",
-    image: "https://en.wikipedia.org/wiki/Wikipedia:University_of_Edinburgh/Events_and_Workshops/International_Alumni_editathon#/media/File:University_of_Edinburgh_Spy_Week_Wikipedia_edit-a-thon_07.jpg"
+    image: "https://en.wikipedia.org/wiki/G7#/media/File:P20240613AS-0546.jpg"
   },
   {
     title: "Campus Renovation Updates",
     date: "2025-05-15",
     description: "The campus library will be renovated starting next month.",
-    image: "https://via.placeholder.com/400x250?text=Campus+Renovation"
+    image: "https://en.wikipedia.org/wiki/Rebuild_Lagos_Trust_Fund#/media/File:Rebuild_Lagos_Trust_Fund_logo.jpg"
   }
 ];
 
