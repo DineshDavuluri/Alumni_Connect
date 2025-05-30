@@ -14,9 +14,9 @@ const defaultEvents: Event[] = [
   {
     title: "Google Cloud DevFest",
     date: "2025-07-15",
-    location: "Auditorium A, Tech Campus",
+    location: "OAT Auditorium, Tech Campus",
     description: "Hands-on sessions on GCP, Firebase, and AI tools with Google Developer Experts.",
-    image: "https://en.wikipedia.org/wiki/Wikipedia:University_of_Edinburgh/Events_and_Workshops/International_Alumni_editathon#/media/File:Editathon_for_Women_and_the_Institute_of_Psychology_2013.JPG",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
   },
   {
     title: "Microsoft Azure AI Bootcamp",
@@ -44,7 +44,7 @@ const defaultEvents: Event[] = [
     date: "2025-10-12",
     location: "Innovation Zone",
     description: "Explore the future of metaverse tech with Meta's AR/VR devices and demos.",
-    image: "https://en.wikipedia.org/wiki/Meta_AI#/media/File:Dall-e_3_(jan_'24)_artificial_intelligence_icon.png",
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/4a/OpenAI_Logo.svg",
   },
   {
     title: "LinkedIn Career Day",
@@ -78,8 +78,8 @@ const defaultEvents: Event[] = [
 
 export default function Events() {
   const router = useRouter();
-  const [username, setUsername] = useState<string>("");
-  const [isAlumni, setIsAlumni] = useState<boolean>(false);
+  const [username, setUsername] = useState("");
+  const [isAlumni, setIsAlumni] = useState(false);
   const [events, setEvents] = useState<Event[]>(defaultEvents);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [newEvent, setNewEvent] = useState<Event>({
@@ -120,13 +120,13 @@ export default function Events() {
   ) => {
     const { name, value } = e.target;
     if (index !== null) {
-      setEvents((prevEvents: Event[]) =>
+      setEvents((prevEvents) =>
         prevEvents.map((event, i) =>
           i === index ? { ...event, [name]: value } : event
         )
       );
     } else {
-      setNewEvent((prev: Event) => ({ ...prev, [name]: value }));
+      setNewEvent((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -164,13 +164,13 @@ export default function Events() {
       newEvent.location &&
       newEvent.description
     ) {
-      setEvents((prevEvents: Event[]) => [...prevEvents, newEvent]);
+      setEvents((prevEvents) => [...prevEvents, newEvent]);
       setNewEvent({ title: "", date: "", location: "", description: "", image: "" });
     }
   };
 
   const deleteEvent = (index: number) => {
-    setEvents((prevEvents: Event[]) =>
+    setEvents((prevEvents) =>
       prevEvents.filter((_, i) => i !== index)
     );
   };
@@ -183,62 +183,41 @@ export default function Events() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white p-8">
-      <h1 className="text-4xl font-extrabold text-center mb-6">Upcoming Alumni Events</h1>
-      <p className="text-center text-lg mb-6">
-        Stay updated with exciting tech events and networking opportunities.
-      </p>
-      <nav className="w-full mb-8">
-        <ul className="flex justify-around text-lg font-semibold">
-          <li>
-            <button
-              onClick={() => handleNavigation("dashboard")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Home
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => handleNavigation("about")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Alumni Contributions
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => handleNavigation("alumni-directory")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Alumni Directory
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => handleNavigation("news")}
-              className="px-4 py-2 bg-blue-300 rounded-md hover:bg-pink-700 transition"
-            >
-              Current Trends
-            </button>
-          </li>
+    <div className="min-h-screen bg-white text-gray-900 p-4 md:p-8">
+      <header className="mb-6 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">Upcoming Alumni Events</h1>
+        <p className="text-base md:text-lg text-gray-600">Stay updated with tech events and networking opportunities.</p>
+      </header>
+
+      <nav className="mb-6">
+        <ul className="flex flex-wrap justify-center gap-4">
+          {['dashboard', 'about', 'alumni-directory', 'news'].map((page) => (
+            <li key={page}>
+              <button
+                onClick={() => handleNavigation(page)}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-sm md:text-base rounded"
+              >
+                {page.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
+              </button>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      <div className="max-w-4xl mx-auto space-y-6">
+      <section className="space-y-6 max-w-5xl mx-auto">
         {events.map((event, index) => (
           <div
             key={index}
-            className="p-6 bg-gray-800 rounded-2xl shadow-lg transform transition hover:scale-105 hover:bg-gray-700"
+            className="p-4 md:p-6 bg-gray-50 border border-gray-200 rounded-lg shadow-sm"
           >
             {editingIndex === index ? (
-              <>
+              <div className="space-y-2">
                 <input
                   type="text"
                   name="title"
                   value={event.title}
                   onChange={(e) => handleInputChange(e, index)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+                  className="w-full p-2 border rounded"
                   placeholder="Event Title"
                 />
                 <input
@@ -246,7 +225,7 @@ export default function Events() {
                   name="date"
                   value={event.date}
                   onChange={(e) => handleInputChange(e, index)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+                  className="w-full p-2 border rounded"
                   placeholder="Event Date"
                 />
                 <input
@@ -254,128 +233,117 @@ export default function Events() {
                   name="location"
                   value={event.location}
                   onChange={(e) => handleInputChange(e, index)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+                  className="w-full p-2 border rounded"
                   placeholder="Location"
                 />
                 <textarea
                   name="description"
                   value={event.description}
                   onChange={(e) => handleInputChange(e, index)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
+                  className="w-full p-2 border rounded"
                   placeholder="Event Description"
                 />
-                <label className="block mb-2 text-sm font-medium text-yellow-300">
-                  Upload Image
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleImageChange(e, index)}
-                    className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
-                  />
-                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e, index)}
+                />
                 <button
                   onClick={saveEvent}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   Save
                 </button>
-              </>
+              </div>
             ) : (
-              <>
-                <div className="flex flex-row md:flex-row gap-6">
-                  {event.image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={event.image}
-                      alt="Event"
-                      className="w-[400px] h-[250px] object-cover rounded-md mb-4 border-2 border-gray-600"
-                    />
-                  )}
-                  <div>
-                    <h2 className="text-2xl font-bold text-blue-400">{event.title}</h2>
-                    <p className="text-gray-300 text-sm mb-2">
-                      {event.date} | {event.location}
-                    </p>
-                    <p className="text-gray-400">{event.description}</p>
-                  </div>
-                </div>
-                {isAlumni && (
-                  <div className="mt-4 flex space-x-3">
-                    <button
-                      onClick={() => setEditingIndex(index)}
-                      className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteEvent(index)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                  </div>
+              <div className="md:flex gap-4">
+                {event.image && (
+                  <img
+                    src={event.image}
+                    alt="Event"
+                    className="w-full md:w-64 h-40 object-cover rounded mb-2 md:mb-0"
+                  />
                 )}
-              </>
+                <div>
+                  <h2 className="text-xl font-semibold">{event.title}</h2>
+                  <p className="text-sm text-gray-500">{event.date} | {event.location}</p>
+                  <p className="mt-2 text-sm">{event.description}</p>
+                </div>
+              </div>
+            )}
+            {isAlumni && editingIndex !== index && (
+              <div className="mt-3 flex gap-2">
+                <button
+                  onClick={() => setEditingIndex(index)}
+                  className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => deleteEvent(index)}
+                  className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </div>
             )}
           </div>
         ))}
-      </div>
+      </section>
 
       {isAlumni && (
-        <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-800 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-blue-400 mb-4">Add New Event</h2>
-          <input
-            type="text"
-            name="title"
-            value={newEvent.title}
-            onChange={(e) => handleInputChange(e, null)}
-            className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
-            placeholder="Event Title"
-          />
-          <input
-            type="text"
-            name="date"
-            value={newEvent.date}
-            onChange={(e) => handleInputChange(e, null)}
-            className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
-            placeholder="Event Date"
-          />
-          <input
-            type="text"
-            name="location"
-            value={newEvent.location}
-            onChange={(e) => handleInputChange(e, null)}
-            className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
-            placeholder="Location"
-          />
-          <textarea
-            name="description"
-            value={newEvent.description}
-            onChange={(e) => handleInputChange(e, null)}
-            className="w-full p-2 bg-gray-700 text-white rounded-md mb-2"
-            placeholder="Event Description"
-          />
-          <label className="block mb-2 text-sm font-medium text-yellow-300">
-            Upload Image
+        <section className="mt-10 max-w-5xl mx-auto p-4 md:p-6 bg-gray-100 border border-gray-200 rounded-lg">
+          <h2 className="text-xl font-bold mb-4">Add New Event</h2>
+          <div className="space-y-2">
+            <input
+              type="text"
+              name="title"
+              value={newEvent.title}
+              onChange={(e) => handleInputChange(e, null)}
+              className="w-full p-2 border rounded"
+              placeholder="Event Title"
+            />
+            <input
+              type="text"
+              name="date"
+              value={newEvent.date}
+              onChange={(e) => handleInputChange(e, null)}
+              className="w-full p-2 border rounded"
+              placeholder="Event Date"
+            />
+            <input
+              type="text"
+              name="location"
+              value={newEvent.location}
+              onChange={(e) => handleInputChange(e, null)}
+              className="w-full p-2 border rounded"
+              placeholder="Location"
+            />
+            <textarea
+              name="description"
+              value={newEvent.description}
+              onChange={(e) => handleInputChange(e, null)}
+              className="w-full p-2 border rounded"
+              placeholder="Event Description"
+            />
             <input
               type="file"
               accept="image/*"
               onChange={(e) => handleImageChange(e, null)}
-              className="block w-full text-sm text-white bg-gray-700 rounded-md border border-gray-600 p-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 mt-2"
             />
-          </label>
-          <button
-            onClick={addEvent}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-          >
-            Add Event
-          </button>
-        </div>
+            <button
+              onClick={addEvent}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            >
+              Add Event
+            </button>
+          </div>
+        </section>
       )}
 
-      <div className="mt-8 text-center text-lg text-gray-300">
-        Logged in as: <span className="font-semibold text-white">{username}</span>
-      </div>
+      <footer className="mt-10 text-center text-sm text-gray-500">
+        Logged in as: <span className="font-semibold text-gray-700">{username}</span>
+      </footer>
     </div>
   );
 }
