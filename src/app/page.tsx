@@ -140,7 +140,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen items-center justify-center bg-black p-4">
-      <div className="w-full max-w-md bg-white text-black p-6 sm:p-8 rounded-xl shadow-md border border-gray-300">
+      <div className="w-full max-w-md bg-gray-800 text-black p-6 sm:p-8 rounded-xl shadow-md border border-gray-300">
         <h1 className="text-3xl font-bold text-center mb-4">LARA CONNECT</h1>
         <h2 className="text-xl text-center font-semibold mb-4">
           {isSignup ? "Create an account" : isForgotPassword ? "Reset Password" : "Welcome Back"}
