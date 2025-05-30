@@ -25,263 +25,80 @@ export default function Dashboard() {
     }
   }, [router]);
 
-  const handleSignOut = () => {
-    router.push("/");
-  };
-
-  const handleSearchAlumni = () => {
-    router.push(`/alumni-directory?username=${encodeURIComponent(username)}`);
-  };
-
-  const handleViewNews = () => {
-    router.push(`/news?username=${encodeURIComponent(username)}`);
-  };
-
-  const handleMentorship = () => {
-    router.push(`/mentorship?username=${encodeURIComponent(username)}`);
-  };
-
-  const handleViewAllUpdates = () => {
-    router.push(`/updates?username=${encodeURIComponent(username)}`);
-  };
-
-  const handleAbout = () => {
-    router.push(`/about?username=${encodeURIComponent(username)}`);
-  };
-
-  const handleEvents = () => {
-    router.push(`/events?username=${encodeURIComponent(username)}`);
-  };
-
-  const handleContact = () => {
-    router.push(`/contact?username=${encodeURIComponent(username)}`);
+  const navActions = {
+    signOut: () => router.push("/"),
+    alumniDirectory: () => router.push(`/alumni-directory?username=${encodeURIComponent(username)}`),
+    news: () => router.push(`/news?username=${encodeURIComponent(username)}`),
+    mentorship: () => router.push(`/mentorship?username=${encodeURIComponent(username)}`),
+    updates: () => router.push(`/updates?username=${encodeURIComponent(username)}`),
+    about: () => router.push(`/about?username=${encodeURIComponent(username)}`),
+    events: () => router.push(`/events?username=${encodeURIComponent(username)}`),
+    contact: () => router.push(`/contact?username=${encodeURIComponent(username)}`),
+    batch: (batch: string) => router.push(`/alumni-directory?username=${encodeURIComponent(username)}&batch=${batch}`),
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white">
-      <header className="flex z-50 items-center justify-between p-4 bg-gray-900/80 backdrop-blur-md shadow-lg">
+    <div className="min-h-screen bg-gray-100 text-gray-900">
+      <header className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white shadow-md">
         <div className="flex items-center space-x-3">
-          <Image
-            src="/laralogo.jpg"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-            LARA CONNECT
-          </h1>
+          <Image src="/laralogo.jpg" alt="Logo" width={40} height={40} className="rounded-full" />
+          <h1 className="text-xl font-semibold text-blue-700">LARA CONNECT</h1>
         </div>
-        <nav className="flex space-x-2">
-          <button
-            onClick={handleAbout}
-            className="px-4 py-2 text-sm font-semibold text-white border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
-          >
-            AlumniContributions
-          </button>
-          <button
-            onClick={handleEvents}
-            className="px-4 py-2 text-sm font-semibold text-white border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
-          >
-            Events
-          </button>
-          <button
-            onClick={handleViewNews}
-            className="px-4 py-2 text-sm font-semibold text-white border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
-          >
-            CurrentTrends
-          </button>
-          <button
-            onClick={handleContact}
-            className="px-4 py-2 text-sm font-semibold text-white border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
-          >
-            Contact
-          </button>
+        <nav className="flex flex-wrap justify-center gap-2 mt-2 sm:mt-0">
+          <NavButton label="Contributions" onClick={navActions.about} />
+          <NavButton label="Events" onClick={navActions.events} />
+          <NavButton label="Trends" onClick={navActions.news} />
+          <NavButton label="Contact" onClick={navActions.contact} />
+          <NavButton label="Sign Out" onClick={navActions.signOut} />
         </nav>
-        <button
-          onClick={handleSignOut}
-          className="px-4 py-2 text-sm font-semibold text-white border border-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
-        >
-          Sign Out
-        </button>
-        <div className="p-6 bg-gray-800/50 backdrop-blur-md rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-blue-500 rounded-lg">
-              <Menu className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-blue-300">
-                View B.Tech Alumni by Batch
-              </h3>
-              <p className="text-gray-400">
-                Select a batch to browse alumni profiles.
-              </p>
-            </div>
-          </div>
-          <div className="mt-4 grid grid-cols-3 sm:grid-cols-3 gap-2 z-50 relative">
-  {["2024", "2023", "2022", "2021", "2020", "2019", "2018","2017"].map((batch) => (
-    <div
-      key={batch}
-      onClick={() =>
-        router.push(
-          `/alumni-directory?username=${encodeURIComponent(username)}&batch=${batch}`
-        )
-      }
-      className="cursor-pointer bg-gray-800 text-white rounded-lg p-2 text-center text-sm shadow hover:bg-blue-600 transition duration-200"
-    >
-       {batch}
-    </div>
-  ))}
-</div>
-
-        </div>
       </header>
 
-      <section className="relative flex items-center justify-center h-40 sm:h-48 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+      <section className="flex items-center justify-center h-32 bg-blue-100">
         <div className="text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight animate-fade-in">
-            Welcome,{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
-              {username}
-            </span>
-          </h2>
-          <p className="mt-1 text-base sm:text-lg text-gray-200 animate-fade-in-delayed">
-            Connect with your Alumni and expand your professional network.
-          </p>
+          <h2 className="text-2xl font-bold">Welcome, {username}</h2>
+          <p className="text-sm text-gray-600">Connect and grow with your alumni network.</p>
         </div>
-        <div className="absolute z-10 inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
       </section>
 
-      <main className="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6 space-x-15">
+      <main className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
-          <div className="p-4 bg-gray-800/50 backdrop-blur-md rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden">
-  <h3 className="text-lg font-semibold text-blue-300 mb-2 drop-shadow-[0_0_6px_rgba(59,130,246,0.8)]">
-    Highest Packages
-  </h3>
-  <div className="absolute top-8 left-0 h-8 w-16 bg-gradient-to-r from-gray-800/50 via-gray-800/0 to-transparent z-10" />
-  <div className="absolute top-8 right-0 h-8 w-16 bg-gradient-to-l from-gray-800/50 via-gray-800/0 to-transparent z-10" />
-
-  <div className="overflow-hidden relative h-8">
-    <div
-      className="flex animate-marquee whitespace-nowrap"
-      style={{ animationDuration: `${packages.length * 3}s` }}
-    >
-      {packages.length > 0 ? (
-        packages.map((pkg) => (
-          <span
-            key={pkg.id}
-            className="mx-6 text-blue-200 text-base font-bold tracking-wide drop-shadow-[0_0_6px_rgba(59,130,246,0.8)]"
-          >
-            {pkg.company}: {pkg.package} LPA ({pkg.year})
-          </span>
-        ))
-      ) : (
-        <span className="text-gray-400">No packages available</span>
-      )}
-    </div>
-  </div>
-</div>
-
-
-          <div className="p-6 bg-gray-800/50 backdrop-blur-md rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-blue-500 rounded-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4a4 4 0 110 8 4 4 0 010-8zm0 10c4.418 0 8 1.79 8 4v2H4v-2c0-2.21 3.582-4 8-4z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-blue-300">Alumni List</h3>
-                <p className="text-gray-400">
-                  Search the directory to connect with fellow alumni.
-                </p>
+          <Card title="Highest Packages">
+            <div className="overflow-hidden relative h-8">
+              <div
+                className="flex animate-marquee whitespace-nowrap"
+                style={{ animationDuration: `${packages.length * 3}s` }}
+              >
+                {packages.length > 0 ? (
+                  packages.map(pkg => (
+                    <span key={pkg.id} className="mx-4 text-sm font-medium text-blue-700">
+                      {pkg.company}: {pkg.package} LPA ({pkg.year})
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-gray-400">No packages available</span>
+                )}
               </div>
             </div>
-            <button
-              onClick={handleSearchAlumni}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
-            >
-              Search Now
-            </button>
-          </div>
-          <div className="p-6 bg-gray-800/50 backdrop-blur-md rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-pink-500 rounded-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l2 4h4a2 2 0 012 2v8a2 2 0 01-2 2zM7 10h10M7 14h6"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-pink-300">
-                  Current Trends
-                </h3>
-                <p className="text-gray-400">
-                  Read the latest updates from our alumni community.
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={handleViewNews}
-              className="mt-4 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-all duration-300"
-            >
-              Read More
-            </button>
-          </div>
+          </Card>
 
-          <div className="p-6 bg-gray-800/50 backdrop-blur-md rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-yellow-500 rounded-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-yellow-300">Mentorship</h3>
-                <p className="text-gray-400">
-                  Find a mentor or offer your expertise to other alumni.
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={handleMentorship}
-              className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-all duration-300"
-            >
-              Get Started
-            </button>
-          </div>
+          <Card title="Alumni Directory" iconColor="blue">
+            <p className="text-sm text-gray-600">Search and connect with fellow alumni.</p>
+            <button onClick={navActions.alumniDirectory} className="mt-3 btn-primary">Search Now</button>
+          </Card>
+
+          <Card title="Current Trends" iconColor="pink">
+            <p className="text-sm text-gray-600">Get the latest updates from the alumni network.</p>
+            <button onClick={navActions.news} className="mt-3 btn-secondary">Read More</button>
+          </Card>
+
+          <Card title="Mentorship" iconColor="yellow">
+            <p className="text-sm text-gray-600">Offer or seek mentorship opportunities.</p>
+            <button onClick={navActions.mentorship} className="mt-3 btn-tertiary">Get Started</button>
+          </Card>
         </div>
-        <div className="md:col-span-1 space-y-6 flex flex-col items-center">
-          <div className="w-full aspect-video rounded-lg overflow-hidden shadow-lg">
+
+        <aside className="space-y-6">
+          <div className="w-full aspect-video rounded-lg overflow-hidden shadow">
             <iframe
               className="w-full h-full"
               src="https://www.youtube.com/embed/R0FiU-PQ8XM?playlist=R0FiU-PQ8XM&loop=1"
@@ -290,28 +107,95 @@ export default function Dashboard() {
               allowFullScreen
             ></iframe>
           </div>
-          <button
-            onClick={handleViewAllUpdates}
-            className="flex items-center justify-center space-x-2 w-full px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-lg"
-          >
-            <span className="text-lg font-semibold">View All Updates</span>
-          </button>
-        </div>
+          <button onClick={navActions.updates} className="btn-primary w-full">View All Updates</button>
+        </aside>
       </main>
+
+      <section className="bg-white px-4 py-6 mt-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="bg-blue-500 text-white p-2 rounded">
+              <Menu className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-blue-700">View Alumni by Batch</h3>
+              <p className="text-sm text-gray-500">Browse alumni by graduation year</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+            {["2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017"].map(batch => (
+              <div
+                key={batch}
+                onClick={() => navActions.batch(batch)}
+                className="cursor-pointer bg-gray-100 hover:bg-blue-100 text-center py-2 rounded text-sm border border-gray-300"
+              >
+                {batch}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <style jsx>{`
         @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
         .animate-marquee {
           display: inline-flex;
           animation: marquee linear infinite;
         }
+        .btn-primary {
+          background-color: #3b82f6;
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 0.375rem;
+          font-weight: 500;
+        }
+        .btn-primary:hover {
+          background-color: #2563eb;
+        }
+        .btn-secondary {
+          background-color: #ec4899;
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 0.375rem;
+          font-weight: 500;
+        }
+        .btn-secondary:hover {
+          background-color: #db2777;
+        }
+        .btn-tertiary {
+          background-color: #f59e0b;
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 0.375rem;
+          font-weight: 500;
+        }
+        .btn-tertiary:hover {
+          background-color: #d97706;
+        }
       `}</style>
+    </div>
+  );
+}
+
+function NavButton({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="text-sm text-gray-700 font-medium px-3 py-2 hover:bg-blue-50 rounded"
+    >
+      {label}
+    </button>
+  );
+}
+
+function Card({ title, children, iconColor = "gray" }: { title: string; children: React.ReactNode; iconColor?: string }) {
+  return (
+    <div className="p-5 bg-white rounded-lg shadow border border-gray-200">
+      <h3 className={`text-lg font-semibold mb-2 text-${iconColor}-600`}>{title}</h3>
+      {children}
     </div>
   );
 }
