@@ -9,7 +9,6 @@ interface News {
   image?: string;
 }
 
-// Static initial news data (replace/add more items as needed)
 const initialNews: News[] = [
   {
     title: "New Alumni Event Announced",
@@ -17,7 +16,6 @@ const initialNews: News[] = [
     description: "Join us for the annual alumni meet-up in July!",
     image: "https://en.wikipedia.org/wiki/G7#/media/File:P20240613AS-0546.jpg"
   },
-  
   {
     title: "Campus Renovation Updates",
     date: "2025-05-15",
@@ -206,7 +204,6 @@ export default function News() {
                 <p className="text-gray-300 text-sm mb-2">{item.date}</p>
                 <p className="text-gray-200 mb-4">{item.description}</p>
                 {item.image && (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={item.image}
                     alt="News"
