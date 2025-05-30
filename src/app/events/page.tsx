@@ -16,7 +16,7 @@ const defaultEvents: Event[] = [
     date: "2025-07-15",
     location: "OAT Auditorium, Tech Campus",
     description: "Hands-on sessions on GCP, Firebase, and AI tools with Google Developer Experts.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+    image: "https://commons.wikimedia.org/wiki/File:Google_cloud.png",
   },
   {
     title: "Microsoft Azure AI Bootcamp",
