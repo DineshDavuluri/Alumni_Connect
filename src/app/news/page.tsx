@@ -17,6 +17,7 @@ const initialNews: News[] = [
     description: "Join us for the annual alumni meet-up in July!",
     image: "https://en.wikipedia.org/wiki/G7#/media/File:P20240613AS-0546.jpg"
   },
+  
   {
     title: "Campus Renovation Updates",
     date: "2025-05-15",
